@@ -75,7 +75,7 @@ class Polylang_Command extends WP_CLI_Command
      * : 'post' or 'term'
      *
      * <data-id>
-     * : the ID of the object to get
+     * : the ID/slug of the object to get
      *
      * <language-count>
      * : the language (if omitted, will be returned in the default language)
@@ -96,7 +96,9 @@ class Polylang_Command extends WP_CLI_Command
             default:
                 WP_CLI::error("Expected: wp polylang get <post or term> ..., not '$what'");
         }
-        $id = $method($args[1], $lang);
+        $ptId = pll_get_id_by_slug($what, $args[1]);
+
+        $id = $method($ptId, $lang);
         WP_CLI::line($id);
     }
 
@@ -147,7 +149,7 @@ class Polylang_Command extends WP_CLI_Command
      * : 'post' or 'term'
      *
      * <data-id>
-     * : the ID of the object to set
+     * : the ID/slug of the object to set
      *
      * <language-code>
      * : the language (if omitted, will be set to the default language)
@@ -178,7 +180,9 @@ class Polylang_Command extends WP_CLI_Command
             default:
                 WP_CLI::error("Expected: wp polylang set <post or term> ..., not '$what'");
         }
-        $method($args[1], $lang);
+        $ptId = pll_get_id_by_slug($what, $args[1]);
+
+        $method($ptId, $lang);
         WP_CLI::success("language for $what $args[1] saved");
     }
 

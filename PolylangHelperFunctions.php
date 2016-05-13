@@ -126,3 +126,35 @@ function pll_is_language_installed($languageCode)
 
     return false;
 }
+
+/**
+ * @param $type
+ * @param $slug
+ * @return mixed
+ */
+function pll_get_id_by_slug($type, $slug)
+{
+    switch ($type) {
+        case 'post':
+
+            $query = new WP_Query(['pagename' => $slug, 'post_type' => ['post', 'page']]);
+            $posts = $query->get_posts();
+            if (!empty($posts)) {
+                return $posts[0]->ID;
+            }
+
+            break;
+        case 'term':
+
+            $term = get_term_by('slug', $slug, 'category');
+            if ($term) {
+                return (int)$term->term_id;
+            }
+
+            break;
+        default:
+            break;
+    }
+
+    return $slug;
+}
