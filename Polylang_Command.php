@@ -227,16 +227,19 @@ class Polylang_Command extends WP_CLI_Command
         // get language of each term or post and build array for the pll_save api function
         $arr = array();
         foreach ($data_ids as $id) {
-            $lang = $get_lang_method($id);
+
+            $ptId = pll_get_id_by_slug($what, $id);
+
+            $lang = $get_lang_method($ptId);
             // is the post or term already managed
             if (!$lang) {
-                WP_CLI::error("'$what' $id is not managed yet and cannot be translated");
+                WP_CLI::error("'$what' $ptId is not managed yet and cannot be translated");
             }
             // is there a post or term with the same language given?
             if (array_key_exists($lang, $arr)) {
-                WP_CLI::error("$lang => $id as well as $lang => $arr[$lang] ar two $what with the same language!");
+                WP_CLI::error("$lang => $ptId as well as $lang => $arr[$lang] ar two $what with the same language!");
             }
-            $arr[$lang] = intval($id);
+            $arr[$lang] = intval($ptId);
         }
         // save the translation
         $method($arr);
@@ -386,5 +389,6 @@ class Polylang_Command extends WP_CLI_Command
         WP_CLI::success("Added language switcher with db_id: ".$menu_item_db_id);
     }
 }
+
 WP_CLI::add_command('polylang', 'Polylang_Command');
 WP_CLI::add_command('pll', 'Polylang_Command'); //alias for the users expecting to use the API shortname.
