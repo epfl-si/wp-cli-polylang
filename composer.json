@@ -1,5 +1,5 @@
 {
-	"name" : "fafiebig/wp-cli-polylang",
+	"name" : "exozet/wp-cli-polylang",
 	"type" : "command",
 	"description" : "Add wp polylang command to support Polylang plug-in",
 	"keywords" : [
@@ -7,7 +7,7 @@
 		"polylang",
 		"i18n"
 	],
-	"homepage" : "https://github.com/fafiebig/wp-cli-polylang",
+	"homepage" : "https://github.com/exozet/wp-cli-polylang",
 	"license" : "GPLv2",
 	"authors" : [{
 			"name" : "F.A. Fiebig",
@@ -28,8 +28,8 @@
 	},
 	"repositories" : [{
 			"type" : "git",
-			"url" : "https://github.com/fafiebig/wp-cli-polylang",
-			"name" : "fafiebig/wp-cli-polylang"
+			"url" : "https://github.com/exozet/wp-cli-polylang",
+			"name" : "exozet/wp-cli-polylang"
 		}
 	]
 }
