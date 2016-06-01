@@ -137,7 +137,7 @@ function pll_get_id_by_slug($type, $slug)
     switch ($type) {
         case 'post':
 
-            $query = new WP_Query(['pagename' => $slug, 'post_type' => ['post', 'page']]);
+            $query = new WP_Query(['pagename' => $slug, 'post_type' => ['post', 'page', 'event']]);
             $posts = $query->get_posts();
             if (!empty($posts)) {
                 return $posts[0]->ID;
