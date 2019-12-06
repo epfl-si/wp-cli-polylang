@@ -30,20 +30,20 @@ function pll_get_default_language_information($languageCode)
 {
     global $polylang;
 
-    require(PLL_SETTINGS_INC.'/languages.php');
+    /* Depending Polylang version, 'languages.php' initializes $languages var or returns an array with all of 
+     the languages content. This array has languageCode as key so it's easier to find a language */
+    $req_res = (require PLL_SETTINGS_INC.'/languages.php' );
+    if(is_array($req_res)) $languages = $req_res;
 
-    foreach ($languages as $language) {
-        if (
-            $language[1] == $languageCode
-        ) {
-            return array(
-                'code'      => $language[0],
-                'locale'    => $language[1],
-                'name'      => $language[2],
-                'rtl'       => $language[3],
-                'flag'      => $language[4]
-            );
-        }
+    if(array_key_exists($languageCode, $languages))
+    {
+        return array(
+            'code'      => $languages[$languageCode]['code'],
+            'locale'    => $languages[$languageCode]['locale'],
+            'name'      => $languages[$languageCode]['name'],
+            'rtl'       => $languages[$languageCode]['dir'],
+            'flag'      => $languages[$languageCode]['flag']
+        );
     }
 
     return null;
@@ -70,12 +70,12 @@ function pll_add_language($languageCode, $languageOrder = 0)
     $info = pll_get_default_language_information($languageCode);
 
     $args = array(
-        name        => $info['name'],
-        slug        => $info['code'],
-        locale      => $info['locale'],
-        flag        => $info['flag'],
-        rtl         => ($info['rtl'] == 'rtl') ? 1 : 0,
-        term_group  => $languageOrder
+        'name'        => $info['name'],
+        'slug'        => $info['code'],
+        'locale'      => $info['locale'],
+        'flag'        => $info['flag'],
+        'rtl'         => ($info['rtl'] == 'rtl') ? 1 : 0,
+        'term_group'  => $languageOrder
     );
 
     return $polylang->model->add_language($args);
